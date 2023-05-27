@@ -10,17 +10,17 @@ export default function MediaPreview({
   query: string | undefined;
   error: string | undefined;
 }) {
-  const media = extractMediaFromTweet(tweet);
+  const media = extractMediaFromTweet(tweet, query ?? "");
   return (
     <>
       <form method="GET">
         <div className="flex">
           <input
             type="text"
-            name="tweetUrl"
+            name="url"
             className="px-4 py-2 mx-2 w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
             placeholder="https://twitter.com/example/status/12345678909875434"
-            defaultValue={query !== undefined ? query : ""}
+            defaultValue={query ?? ""}
           />
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             PREVIEW
@@ -34,7 +34,9 @@ export default function MediaPreview({
               media.map((mediaItem: TweetMedia, index: number) => {
                 return <MediaPreviewCard key={index} media={mediaItem} />;
               })}
-            {media.length <= 0 &&
+            {query !== "" &&
+              query !== undefined &&
+              media.length <= 0 &&
               error === undefined &&
               "Tweet contains no media"}
             {error !== undefined && error}

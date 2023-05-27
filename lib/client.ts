@@ -7,7 +7,7 @@ export function extractStatusIdFromUrl(url: string): string {
     _url.hostname !== "twitter.com" ||
     !_url.pathname.match(/^\S+\/status\/\d+$/)
   ) {
-    throw new Error("Invalid twitter status url ");
+    throw new Error("Invalid Status URL");
   }
 
   return _url.pathname.split("/").pop() ?? "";
@@ -42,20 +42,32 @@ export async function downloadTweet(tweetUrl: string) {
   }
 }
 
-export function extractMediaFromTweet(tweet: any): TweetMedia[] {
+export function extractMediaFromTweet(tweet: any, url: string): TweetMedia[] {
   const results: TweetMedia[] = [];
   tweet?.includes?.media?.forEach((media: any) => {
     if (media.type !== undefined) {
       if (media.type === "photo") {
         results.push({
-          previewUrl: media.url,
-          downloadUrl: media.url,
+          type: media.type,
+          tweetUrl: url,
+          previewUrl: media.url as string,
+          downloadUrl: media.url as string,
         });
       }
       if (media.type === "animated_gif" || media.type === "video") {
         results.push({
+          type: media.type,
+          tweetUrl: url,
           previewUrl: media.preview_image_url,
-          downloadUrl: media.variants[0].url,
+          downloadVariants: media.variants.map((mediaVariant: any) => {
+            return {
+              downloadUrl: mediaVariant.url,
+              contentType: mediaVariant.content_type,
+              resolution: /\S+vid\/(\d+x\d+)\/\S+/
+                .exec(mediaVariant.url)
+                ?.slice(-1)[0],
+            };
+          }),
         });
       }
     }
