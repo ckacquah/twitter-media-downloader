@@ -10,12 +10,16 @@ export default async function Home({
   let error;
 
   const tweetUrl = searchParams.tweetUrl;
-  if (tweetUrl !== undefined && typeof tweetUrl === "string") {
+  if (
+    tweetUrl !== undefined &&
+    typeof tweetUrl === "string" &&
+    tweetUrl !== ""
+  ) {
     try {
-      tweet = await downloadTweet(tweetUrl);
+      tweet = await downloadTweet(tweetUrl.trim());
     } catch (err) {
       if (typeof err === "object" && err !== null && "toString" in err) {
-        error = err.toString();
+        error = err.toString().split(":").slice(-1)[0];
       } else {
         error = "Error downloading tweet";
       }

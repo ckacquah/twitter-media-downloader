@@ -34,7 +34,8 @@ export default function MediaPreview({
               media.map((mediaItem: TweetMedia, index: number) => {
                 return <MediaPreviewCard key={index} media={mediaItem} />;
               })}
-            {media.length <= 0 &&
+            {query !== "" &&
+              media.length <= 0 &&
               error === undefined &&
               "Tweet contains no media"}
             {error !== undefined && error}

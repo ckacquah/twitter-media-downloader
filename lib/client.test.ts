@@ -35,14 +35,14 @@ describe("Extract status from twitter url", () => {
     [
       "facebook.com/zanele_makamo/status/1661716989176365056?t=02N1M9kzjYlYDY_SvKVFyA&s=19",
     ],
+    ["googlesearch?q="],
+    ["temp/q="],
     ["https://google.com/search?q="],
     ["https://twitter.com/status/1662082737472172032"],
   ])(
     "expects invalid status path exception to be thrown for %p",
     (url: string) => {
-      expect(() => extractStatusIdFromUrl(url)).toThrow(
-        /Invalid twitter status url/
-      );
+      expect(() => extractStatusIdFromUrl(url)).toThrow(/Invalid Status URL/);
     }
   );
 });

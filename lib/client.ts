@@ -7,7 +7,7 @@ export function extractStatusIdFromUrl(url: string): string {
     _url.hostname !== "twitter.com" ||
     !_url.pathname.match(/^\S+\/status\/\d+$/)
   ) {
-    throw new Error("Invalid twitter status url ");
+    throw new Error("Invalid Status URL");
   }
 
   return _url.pathname.split("/").pop() ?? "";
