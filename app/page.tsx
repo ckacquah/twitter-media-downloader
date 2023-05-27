@@ -9,7 +9,7 @@ export default async function Home({
   let tweet;
   let error;
 
-  const tweetUrl = searchParams.tweetUrl;
+  const tweetUrl = searchParams.q;
   if (
     tweetUrl !== undefined &&
     typeof tweetUrl === "string" &&

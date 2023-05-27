@@ -17,7 +17,7 @@ export default function MediaPreview({
         <div className="flex">
           <input
             type="text"
-            name="tweetUrl"
+            name="q"
             className="px-4 py-2 mx-2 w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"
             placeholder="https://twitter.com/example/status/12345678909875434"
             defaultValue={query !== undefined ? query : ""}
