@@ -7,13 +7,18 @@ export default async function Home({
   searchParams: { [key: string]: string | undefined };
 }) {
   let tweet;
-  const tweetId = searchParams.tweetId;
-  if (tweetId !== undefined && typeof tweetId === "string") {
+  let error;
+
+  const tweetUrl = searchParams.tweetUrl;
+  if (tweetUrl !== undefined && typeof tweetUrl === "string") {
     try {
-      tweet = await downloadTweet(tweetId);
-    } catch (error) {
-      console.error(error);
-      tweet = error;
+      tweet = await downloadTweet(tweetUrl);
+    } catch (err) {
+      if (typeof err === "object" && err !== null && "toString" in err) {
+        error = err.toString();
+      } else {
+        error = "Error downloading tweet";
+      }
     }
   }
 
@@ -21,7 +26,7 @@ export default async function Home({
     <main className="flex min-h-screen w-screen flex-col items-center justify-start m-0 p-24">
       <p className="text-5xl">Twitter Media Downloader</p>
       <div className="flex flex-col items-center p-12">
-        <MediaPreview tweet={tweet} query={tweetId} />
+        <MediaPreview tweet={tweet} query={tweetUrl} error={error} />
       </div>
     </main>
   );
